@@ -1,6 +1,7 @@
 package org.learning;
 
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -12,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 public abstract class VolunteerEncourager extends JComponent implements ActionListener {
-    static List<Integer> numbers = new ArrayList<>();
+
     static String[] names = {
             "Giuseppe Mongelli", "Giulio D'Angelo", "Roberto Benfini",
             "Salvatore Bono", "Umberto Maria Faenza", "Massimo Azzini", "Alessandro Cingolani",
@@ -22,9 +23,11 @@ public abstract class VolunteerEncourager extends JComponent implements ActionLi
             "Mekki Ouertani", "Matteo Pupino", "Alberto Stizzoli", "Cristian Ursino",
             "Luca Mincuzzi", "Serena Peschiaroli"
     };
-    static int delay = 10;
-    static int volunteer = 0;
-    static int count = 0;
+
+    static List<Integer> numbers = new ArrayList<>();
+    static int delay;
+    static int volunteer;
+    static int count;
     static JFrame f;
     static JPanel gridPanel;
     static JPanel toolBar;
@@ -53,6 +56,10 @@ public abstract class VolunteerEncourager extends JComponent implements ActionLi
         buttonBackground = new Color(190, 236, 212, 255);
         buttonHover = new Color(85, 238, 171, 255);
 
+        LineBorder lineBorder = new LineBorder(borderColor, 1);
+        EmptyBorder emptyBorder = new EmptyBorder(40, 30, 40, 30);
+        CompoundBorder compoundBorder = (new CompoundBorder(lineBorder, emptyBorder));
+
         for (int i = 0; i < names.length; i++) {
             numbers.add(i);
             labels[i] = new JLabel(names[i]);
@@ -61,15 +68,12 @@ public abstract class VolunteerEncourager extends JComponent implements ActionLi
             labels[i].setForeground(labelForeground);
             labels[i].setBackground(labelBackground);
             labels[i].setHorizontalAlignment(JLabel.CENTER);
-            labels[i].setBorder(BorderFactory.createCompoundBorder(
-                    new LineBorder(borderColor, 1),
-                    new EmptyBorder(40, 30, 40, 30)
-            ));
+            labels[i].setBorder(compoundBorder);
             gridPanel.add(labels[i]);
         }
 
-//        shuffleButton.setContentAreaFilled(false);
-//        shuffleButton.setBorderPainted(false);
+        // shuffleButton.setContentAreaFilled(false);
+        // shuffleButton.setBorderPainted(false);
         shuffleButton.setFocusPainted(false);
 
         shuffleButton.setBackground(buttonBackground);
@@ -152,9 +156,7 @@ public abstract class VolunteerEncourager extends JComponent implements ActionLi
 
         }).start();
 
-
     }
-
 
     public static void main(String[] args) {
 
