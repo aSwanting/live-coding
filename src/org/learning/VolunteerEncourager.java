@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class VictimSelector extends JComponent implements ActionListener {
+public abstract class VolunteerEncourager extends JComponent implements ActionListener {
     static List<Integer> numbers = new ArrayList<>();
     static String[] names = {
             "Giuseppe Mongelli", "Giulio D'Angelo", "Roberto Benfini",
@@ -23,7 +23,7 @@ public abstract class VictimSelector extends JComponent implements ActionListene
             "Luca Mincuzzi", "Serena Peschiaroli"
     };
     static int delay = 10;
-    static int victim = 0;
+    static int volunteer = 0;
     static int count = 0;
     static JFrame f;
     static JPanel gridPanel;
@@ -34,12 +34,12 @@ public abstract class VictimSelector extends JComponent implements ActionListene
     static Color labelBackground;
     static Color labelForeground;
     static Color shufflingBackground;
-    static Color victimBackground;
+    static Color volunteerBackground;
     static Color buttonBackground;
     static Color buttonHover;
 
     public static void initGUI() {
-        f = new JFrame("Victim Selector");
+        f = new JFrame("Volunteer Encourager");
         gridPanel = new JPanel(new GridLayout(0, 4));
         toolBar = new JPanel();
         labels = new JLabel[names.length];
@@ -49,8 +49,8 @@ public abstract class VictimSelector extends JComponent implements ActionListene
         labelBackground = new Color(229, 233, 239, 255);
         labelForeground = new Color(52, 52, 61, 255);
         shufflingBackground = new Color(255, 255, 255, 255);
-        victimBackground = new Color(135, 253, 161, 255);
-        buttonBackground = new Color(224, 224, 224, 255);
+        volunteerBackground = new Color(135, 253, 161, 255);
+        buttonBackground = new Color(190, 236, 212, 255);
         buttonHover = new Color(85, 238, 171, 255);
 
         for (int i = 0; i < names.length; i++) {
@@ -80,7 +80,7 @@ public abstract class VictimSelector extends JComponent implements ActionListene
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
-                shuffleButton.setBackground(victimBackground);
+                shuffleButton.setBackground(volunteerBackground);
             }
 
             @Override
@@ -96,8 +96,8 @@ public abstract class VictimSelector extends JComponent implements ActionListene
             }
         });
 
+        toolBar.setBorder(BorderFactory.createEmptyBorder(6, 0, 6, 0));
         toolBar.add(shuffleButton);
-//        toolBar.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
 
         f.add(gridPanel, BorderLayout.CENTER);
         f.add(toolBar, BorderLayout.SOUTH);
@@ -109,21 +109,23 @@ public abstract class VictimSelector extends JComponent implements ActionListene
     }
 
     public static void shuffle() {
-        delay = 10;
-        victim = 0;
-        count = 0;
-        System.out.println("SHUFFLE");
 
+        System.out.println("SHUFFLE");
+        labels[volunteer].setBackground(labelBackground);
         Collections.shuffle(numbers);
+
+        delay = 10;
+        volunteer = 0;
+        count = 0;
 
         new Thread(() -> {
 
             while (delay < 1000) {
 
-                victim = numbers.get(count);
-                System.out.println(delay + "ms - " + names[victim] + " (" + victim + ")");
+                volunteer = numbers.get(count);
+                System.out.println(delay + "ms - " + names[volunteer] + " (" + volunteer + ")");
 
-                labels[victim].setBackground(shufflingBackground);
+                labels[volunteer].setBackground(shufflingBackground);
 
                 try {
                     Thread.sleep(delay);
@@ -131,7 +133,7 @@ public abstract class VictimSelector extends JComponent implements ActionListene
                     throw new RuntimeException(e);
                 }
 
-                labels[victim].setBackground(labelBackground);
+                labels[volunteer].setBackground(labelBackground);
 
                 delay *= 1.12;
 
@@ -145,8 +147,8 @@ public abstract class VictimSelector extends JComponent implements ActionListene
                 f.repaint();
             }
 
-            System.out.println("victim is: " + names[victim]);
-            labels[victim].setBackground(victimBackground);
+            System.out.println("volunteer is: " + names[volunteer]);
+            labels[volunteer].setBackground(volunteerBackground);
 
         }).start();
 
@@ -154,7 +156,7 @@ public abstract class VictimSelector extends JComponent implements ActionListene
     }
 
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
 
         initGUI();
 
